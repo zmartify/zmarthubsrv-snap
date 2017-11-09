@@ -1,0 +1,13 @@
+apps:
+  hello:
+    command: command-hello.wrapper
+architectures:
+- armhf
+confinement: devmode
+description: 'Zmartify''s server manager for ZmartHUB
+
+  '
+grade: devel
+name: hello
+summary: ZmartHUB server manager
+version: '2.1'
