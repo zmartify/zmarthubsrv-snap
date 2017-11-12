@@ -1,11 +1,23 @@
 name: zmarthubsrv # you probably want to 'snapcraft register <name>'
-version: '0.1'
+version: '0.2'
 summary: ZmartHUB server manager
 description: |
   Zmartify's server manager for ZmartHUB
 
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
+
+
+
+slots:
+  dbus-bluez:
+    interface: dbus
+    bus: system
+    name: org.bluez
+  dbus-freedesktop:
+    interface: dbus
+    bus: system
+    name: org.freedesktop.DBus
 
 plugs:
   client:
@@ -23,12 +35,13 @@ parts:
   zmarthubsrv:
     plugin: maven
     source: git://github.com/zmartify/zmarthubsrv
-    build-packages:
-      - libbluetooth-dev
     stage-packages:
       - libbluetooth-dev
 
 apps:
-  run:
+  zmarthubsrv:
     command: java -jar $SNAP/jar/zmarthubsrv.jar
-    plugs: [client]
+    daemon: simple
+    plugs: [home, bluetooth-control, network, network-bind, network-manager, client]
+  
+
